@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Climate Chaos Inc. — Heilbronn</title>
+  <meta name="description" content="A small, silly, ecological city simulator set in Heilbronn.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="game">
+    <canvas id="map" aria-label="Map of Heilbronn"></canvas>
+
+    <!-- Top HUD: all information + map settings -->
+    <header class="hud-top" id="hud-top">
+      <div class="hud stats-bar">
+        <div class="brand" title="Climate Chaos Inc. — Heilbronn Edition">
+          <span class="logo" aria-hidden="true">🌳</span>
+          <div><h1>Climate Chaos Inc.</h1><small>Heilbronn Edition</small></div>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <span class="lbl">💶 Treasury</span>
+            <span class="val" id="st-money">€0</span>
+            <span class="sub" id="st-money-sub"></span>
+          </div>
+          <div class="stat">
+            <span class="lbl">☁️ Smog</span>
+            <span class="bar" id="st-smog"><i></i><b>0</b></span>
+            <span class="sub">lose at 100</span>
+          </div>
+          <div class="stat">
+            <span class="lbl">🌡️ Warming</span>
+            <span class="val" id="st-temp">+0 °C</span>
+            <span class="sub" id="st-temp-sub"></span>
+          </div>
+          <div class="stat">
+            <span class="lbl">😊 Happiness</span>
+            <span class="bar" id="st-happy"><i></i><b>0</b></span>
+            <span class="sub">parks &amp; trees help</span>
+          </div>
+          <div class="stat">
+            <span class="lbl">👥 Population</span>
+            <span class="val" id="st-pop">0</span>
+            <span class="sub" id="st-pop-sub"></span>
+          </div>
+          <div class="stat trend-stat" title="Smog (brown) and warming (red) over the last 10 years">
+            <span class="lbl">📈 Air balance</span>
+            <canvas id="trend" class="trend"></canvas>
+            <span class="sub" id="st-net"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hud settings-bar">
+        <div class="date">
+          <span class="val" id="st-date"></span>
+          <span class="sub" id="st-season"></span>
+          <span class="month-progress"><i id="month-progress"></i></span>
+        </div>
+        <div class="seg speed" role="group" aria-label="Game speed">
+          <button data-speed="0" title="Pause (Space)">⏸</button>
+          <button data-speed="1" title="Normal speed">▶</button>
+          <button data-speed="2" title="Fast">▶▶</button>
+          <button data-speed="4" title="Very fast">▶▶▶</button>
+        </div>
+        <div class="seg overlay-toggle" role="group" aria-label="Map overlay (O)">
+          <button data-overlay="none" title="Plain map">🗺️</button>
+          <button data-overlay="smog" title="Smog overlay">☁️</button>
+          <button data-overlay="heat" title="Heat overlay">🌡️</button>
+        </div>
+        <div class="seg zoom" role="group" aria-label="Zoom">
+          <button data-zoom="out" title="Zoom out (−)">−</button>
+          <button data-zoom="fit" title="Show whole map">⤢</button>
+          <button data-zoom="in" title="Zoom in (+)">＋</button>
+        </div>
+        <button id="btn-new" class="seg-btn" title="New game">↺</button>
+      </div>
+    </header>
+
+    <!-- Right HUD: building options + a small message area -->
+    <aside class="hud-right" id="hud-right">
+      <section class="hud build-panel">
+        <div class="panel-head">
+          <h2>Build</h2>
+          <span class="power-sum" id="power-sum"></span>
+          <button id="btn-collapse" class="icon-btn" title="Hide build menu" aria-expanded="true">⟩</button>
+        </div>
+        <div class="build-body">
+          <div class="power" id="power" role="meter" aria-label="Electricity">
+            <span class="power-icon" aria-hidden="true">⚡</span>
+            <div class="power-track">
+              <i class="pw-local"></i><i class="pw-surplus"></i><i class="pw-import"></i><i class="pw-dark"></i>
+              <b class="pw-demand"></b>
+            </div>
+            <span class="power-num" id="power-num">0</span>
+            <small>MW</small>
+          </div>
+          <div class="build-main">
+            <nav id="tabs" class="tabs"></nav>
+            <div id="build-list" class="build-list"></div>
+            <div id="tool-info" class="tool-info"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="hud messages">
+        <div class="advisor">
+          <div id="advisor-face"></div>
+          <p><b>Käthchen:</b> <span id="advisor-text"></span></p>
+        </div>
+        <ul id="news" class="news" aria-label="Neckar Gossip Gazette" aria-live="polite"></ul>
+      </section>
+    </aside>
+
+    <div id="tile-info" class="tile-tip" hidden></div>
+    <div id="legend" class="legend" hidden><span id="legend-label"></span><i></i></div>
+    <div id="toasts"></div>
+  </div>
+
+  <div id="modal" class="modal" hidden>
+    <div id="modal-card" class="modal-card" role="dialog" aria-modal="true">
+      <div id="modal-body"></div>
+      <div id="modal-buttons" class="modal-buttons"></div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/sim.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+  <script>document.getElementById('advisor-face').innerHTML = PORTRAIT_KAETHCHEN;</script>
+</body>
+</html>
