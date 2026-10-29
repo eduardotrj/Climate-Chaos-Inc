@@ -69,7 +69,16 @@ The **Green** tab has BUGA Parks, Solar Fields, Wind Turbines, Hydro Plants (riv
 
 ## Look
 
-Everything is drawn procedurally on a canvas, with no image assets. Heilbronn is shown in isometric view as a floating diorama island: the Neckar is sunk below the banks with turquoise shallows, twinkling highlights and riverside rocks. The Wartberg rises in terraces, and soil cliffs show wherever the ground drops. Trees are built from layered leaf clusters lit from the top-left, and buildings are shaded 3D blocks. The map changes with the seasons (snow, autumn leaves, pink spring petals), and smoke drifts with the wind.
+Hand-painted, Ghibli-inspired, and drawn entirely procedurally on a canvas with no image assets.
+
+- **Heilbronn floats in the sky.** The rocky underside has hanging roots and vines and fades into a bank of clouds, and the Neckar pours off the island's edge as a waterfall.
+- **The sky moves.** Soft cumulus clouds drift past, their shadows slide across the town, and warm sunlight comes from the top-left, with cool blue-green shadows.
+- **Painterly ground.** Watercolor-style grass with wildflower meadows, cobblestone streets, stone arch bridges, reeds, lily pads and mossy river stones.
+- **Storybook buildings.** Pastel and half-timbered houses with flower boxes, shutters and tiled roofs. There's a brick-chimney coal works, a windmill, a water mill, a glass-domed AI conservatory and a vintage tram.
+- **Layered trees** that sway in the wind and change with the seasons: snowy branches in winter, oaks keeping their dry leaves, golden ginkgos and red maples in autumn.
+- **Ambient particles:** spring petals, summer dandelion fluff, autumn leaves and winter snow.
+
+The painted terrain is cached once per season, so panning and zooming stay smooth.
 
 ## Code layout
 
